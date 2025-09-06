@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8">
+  <title>Faktura</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .faktura {
+      max-width: 800px;
+      margin: auto;
+      border: 1px solid #333;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    label {
+      font-weight: bold;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 6px;
+      margin: 4px 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table, th, td {
+      border: 1px solid #444;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    .totalt {
+      text-align: right;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .knapp {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+      padding: 10px;
+      font-size: 1em;
+      background: #1976d2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .knapp:hover {
+      background: #0d47a1;
+    }
+    @media print {
+      .knapp { display: none; }
+      body { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="faktura">
+    <h1>Faktura</h1>
+
+    <label for="fakturaId">Faktura ID:</label>
+    <input type="text" id="fakturaId" readonly>
+
+    <label for="kunde">Kunde:</label>
+    <input type="text" id="kunde" placeholder="Kundenavn">
+
+    <label for="adresse">Adresse:</label>
+    <textarea id="adresse" rows="2" placeholder="Adresse"></textarea>
+
+    <label for="dato">Dato:</label>
+    <input type="date" id="dato">
+
+    <table id="varer">
+      <thead>
+        <tr>
+          <th>Vare/Tjeneste</th>
+          <th>Antall</th>
+          <th>Pris (kr)</th>
+          <th>Sum</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" placeholder="Beskrivelse"></td>
+          <td><input type="number" value="1" min="1" class="antall"></td>
+          <td><input type="number" value="0" step="0.01" class="pris"></td>
+          <td class="sum">0.00</td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" onclick="leggTilRad()">+ Legg til vare</button>
+
+    <div class="totalt">Totalt: <span id="totalt">0.00</span> kr</div>
+
+    <button class="knapp" onclick="window.print()">🖨 Print Faktura</button>
+  </div>
+
+  <script>
+    // Generer unikt faktura-ID basert på Unix-tid
+    document.getElementById("fakturaId").value = "F-" + Date.now();
+
+    // Sett dagens dato som default
+    document.getElementById("dato").valueAsDate = new Date();
+
+    function oppdaterSum() {
+      let totalt = 0;
+      document.querySelectorAll("#varer tbody tr").forEach(row => {
+        let antall = parseFloat(row.querySelector(".antall").value) || 0;
+        let pris = parseFloat(row.querySelector(".pris").value) || 0;
+        let sum = antall * pris;
+        row.querySelector(".sum").textContent = sum.toFixed(2);
+        totalt += sum;
+      });
+      document.getElementById("totalt").textContent = totalt.toFixed(2);
+    }
+
+    function leggTilRad() {
+      let tbody = document.querySelector("#varer tbody");
+      let nyRad = document.createElement("tr");
+      nyRad.innerHTML = `
+        <td><input type="text" placeholder="Beskrivelse"></td>
+        <td><input type="number" value="1" min="1" class="antall"></td>
+        <td><input type="number" value="0" step="0.01" class="pris"></td>
+        <td class="sum">0.00</td>
+      `;
+      tbody.appendChild(nyRad);
+      nyRad.querySelectorAll("input").forEach(input => {
+        input.addEventListener("input", oppdaterSum);
+      });
+    }
+
+    document.querySelectorAll(".antall, .pris").forEach(input => {
+      input.addEventListener("input", oppdaterSum);
+    });
+  </script>
+</body>
+</html>
