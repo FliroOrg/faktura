@@ -1,164 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="no">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Fliro Faktura</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Faktura</title>
   <style>
-    body { font-family: 'Inter', sans-serif; margin: 0; background:#f3f4f6; color:#111827; }
-    .page { max-width: 900px; margin: 20px auto; background:#fff; padding: 30px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-    h1 { text-align: center; margin-bottom: 24px; font-size: 26px; font-weight:600; letter-spacing:-0.5px; }
-    h3 { margin-bottom: 6px; color:#1f2937; font-size:16px; font-weight:600; }
-    .section { margin-bottom: 20px; }
-    label { display:block; font-size: 13px; margin-top: 6px; font-weight:500; color:#374151; }
-    input, textarea { width: 100%; padding: 10px 12px; margin-top: 3px; box-sizing: border-box; border:1px solid #d1d5db; border-radius:6px; font-size:14px; background:#fafafa; }
-    input:focus, textarea:focus { outline:none; border-color:#3b82f6; background:#fff; }
-    textarea { min-height:60px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; font-size:14px; }
-    th, td { border: 1px solid #e5e7eb; padding: 8px; word-wrap: break-word; }
-    th { background: #f9fafb; text-align: left; font-size: 13px; font-weight:600; color:#374151; }
-    td input { border:none; width:100%; padding:6px; font-size:14px; box-sizing:border-box; background:transparent; }
-    td input:focus { outline:none; background:#fff; border:1px solid #3b82f6; border-radius:4px; }
-    .toolbar { display:flex; justify-content:flex-end; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
-    button { padding: 10px 18px; border:none; border-radius:6px; cursor:pointer; font-weight:600; font-size:14px; transition: all 0.2s ease; }
-    .btn { background:#111827; color:#fff; }
-    .btn:hover { background:#000; }
-    .btn-secondary { background:#e5e7eb; color:#111827; }
-    .btn-secondary:hover { background:#d1d5db; }
-    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-    .table-wrapper { overflow-x:auto; border-radius:6px; }
-    @media (max-width: 700px) {
-      .grid-2 { grid-template-columns:1fr; }
-      .toolbar { flex-direction:column; }
-      button { width:100%; }
-      h1 { font-size: 22px; }
-    }
-    @media print {
-      .toolbar { display: none; }
-      body { background:#fff; margin:0; }
-      .page { box-shadow:none; border-radius:0; margin:0; }
-      input, textarea { border:none; padding:0; background:transparent; }
-      table { table-layout: auto; }
-    }
+	body{
+		text-align:center;
+	}
+	.flex{
+		display:flex;
+		margin:0 auto;
+	}
+	.child-frame{
+		text-align:left;
+		padding:15px;
+	}
+	.child{
+		flex:auto;
+		text-align:center;
+	}
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="toolbar no-print">
-      <button class="btn-secondary" onclick="addRow()">➕ Legg til linje</button>
-      <button class="btn" onclick="window.print()">🖨️ Skriv ut</button>
-    </div>
+	<div class="flex">
+		<div class="child">
+			<div class="child-frame">
+				<h3>FAKTURA</h3>
+				<b>Kunde</b>
+				<p>Navn / Firma: <input type="text" placeholder="info mangler" required></p>
+				<p>Kontakt Info: <input type="text" placeholder="Telefon / Epost" required></p>
+			</div>
+		</div>
+                <div class="child">
+                        <div class="child-frame">
+				<img src="https://fliro.org/img/icons/logo.webp?v=2.35" />
+                                <h3>FLIRO HAGEMO</h3>
+				<p>KID: <span id="kid"></span></p>
+				<p>Kontonr: 6032.49.28157</p>
+				<br>
+                                <p>Fakturanr: <input type="text" placeholder="Info mangler" id="fnr"></p>
+                                <p>Fakturadato: <input type="date"></p>
+                                <p>Forfallsdato: <input type="date"></p>
+                                <p>Orgnr: 936 113 303</p>
+                                <p>Epost: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="214a544f45445244535748424461474d48534e0f4e5346">[email&#160;protected]</a></p>
+                        </div>
+                </div>
+	</div>
+	<div style="text-align:center;margin:0 auto;">
+		<h3>Utført Arbeid:</h3>
+		<div>
+			<p><textarea placeholder="mangler utført arbeid info.." cols="75" rows="5" required></textarea></p>
+			<p>Pris eks mva: <input type="text" id="pris" placeholder="Pris før MVA.." required></p>
+			<p>Pris inkl mva: <span id="total">Ingen pris er regnet ut..</span></p>
+			<p>pris å betale: <u><span id="betale"></span>,-<u></p>
+		</div>
+	</div>
+	<hr>
+	<div>
+		<h3>Har du spørsmål?</h3>
+		<p>Kontakt oss på <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e58e908b8180968097938c8680a583898c978acb8a9782">[email&#160;protected]</a></p>
+		<p>www.fliro.org</p>
+	</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+	let pris = document.getElementById("pris")
+	let total = document.getElementById("total")
+	let betale = document.getElementById("betale")
 
-    <h1>FAKTURA</h1>
-
-    <div class="section grid-2">
-      <div>
-        <h3>Fra (selger)</h3>
-        <label>Navn/Firmanavn<input value="Fliro Hagemo"></label>
-        <label>Org.nr<input value="936 113 303"></label>
-        <label>Adresse<input value="Blomster Kasse Vei 2"></label>
-        <label>E-post<input value="kundeservice@fliro.org"></label>
-        <label>Telefon<input value="+47 00 00 00 00"></label>
-        <label>Kontonummer<input value="6032.49.28157"></label>
-      </div>
-      <div>
-        <h3>Til (kunde)</h3>
-        <label>Kundenavn<input placeholder="Navn / Firma"></label>
-        <label>Adresse<input placeholder="Gate, nr, postnr, sted"></label>
-        <label>E-post<input placeholder="kunde@epost.no"></label>
-      </div>
-    </div>
-
-    <div class="section grid-2">
-      <div>
-        <h3>Fakturadetaljer</h3>
-        <label>Fakturanummer<input placeholder="001"></label>
-        <label>Dato<input type="date"></label>
-        <label>Forfallsdato<input type="date"></label>
-      </div>
-      <div>
-        <h3>Oppsummering</h3>
-        <label>Sum eks. mva<input id="sumEx" readonly></label>
-        <label>MVA<input id="sumMva" readonly></label>
-        <label>Total<input id="sumTotal" readonly></label>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="table-wrapper">
-        <table id="itemsTable">
-          <thead>
-            <tr>
-              <th style="width:40%">Beskrivelse</th>
-              <th style="width:15%">Antall</th>
-              <th style="width:15%">Pris (kr)</th>
-              <th style="width:10%">MVA %</th>
-              <th style="width:20%">Sum (kr)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><input placeholder="Hva har du levert?"></td>
-              <td><input type="number" placeholder="Antall" oninput="updateSum(this)"></td>
-              <td><input type="number" placeholder="Pris pr stk" oninput="updateSum(this)"></td>
-              <td><input type="number" placeholder="25" oninput="updateSum(this)"></td>
-              <td><input readonly></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="section">
-      <h3>Notater</h3>
-      <textarea placeholder="Takk for oppdraget eller betalingsbetingelser"></textarea>
-    </div>
-  </div>
-
-  <div style="text-align:center;margin:0 auto;"><pre>Fliro Hagemo</pre></div>
-
-  <script>
-    function addRow() {
-      const tbody = document.querySelector('#itemsTable tbody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td><input placeholder="Hva har du levert?"></td>
-        <td><input type="number" placeholder="Antall" oninput="updateSum(this)"></td>
-        <td><input type="number" placeholder="Pris pr stk" oninput="updateSum(this)"></td>
-        <td><input type="number" placeholder="25" oninput="updateSum(this)"></td>
-        <td><input readonly></td>
-      `;
-      tbody.appendChild(tr);
-    }
-
-    function updateSum(el) {
-      const row = el.closest('tr');
-      const qty = parseFloat(row.cells[1].querySelector('input').value) || 0;
-      const price = parseFloat(row.cells[2].querySelector('input').value) || 0;
-      const vatPct = parseFloat(row.cells[3].querySelector('input').value) || 0;
-      const ex = qty * price;
-      const vat = ex * (vatPct/100);
-      const sum = ex + vat;
-      row.cells[4].querySelector('input').value = sum.toFixed(2);
-      updateTotals();
-    }
-
-    function updateTotals() {
-      let ex = 0, vat = 0;
-      document.querySelectorAll('#itemsTable tbody tr').forEach(tr => {
-        const qty = parseFloat(tr.cells[1].querySelector('input').value) || 0;
-        const price = parseFloat(tr.cells[2].querySelector('input').value) || 0;
-        const vatPct = parseFloat(tr.cells[3].querySelector('input').value) || 0;
-        const lineEx = qty * price;
-        const lineVat = lineEx * (vatPct/100);
-        ex += lineEx;
-        vat += lineVat;
-      });
-      document.getElementById('sumEx').value = ex.toFixed(2);
-      document.getElementById('sumMva').value = vat.toFixed(2);
-      document.getElementById('sumTotal').value = (ex+vat).toFixed(2);
-    }
-  </script>
+	pris.addEventListener("keyup",(e) =>{
+		if(e.target.id == "pris"){
+			//fix denne multi, ikke bare 1 line
+			let pris_final = parseInt(pris.value)
+			f = (pris_final / 4) + pris_final
+			total.innerText = `${f}`
+			betale.innerText = `${f}`
+			
+			document.getElementById("kid").innerText = document.getElementById("fnr").value
+		}
+	})
+</script>
 </body>
 </html>
